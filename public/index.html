@@ -240,9 +240,11 @@
           <circle cx="60" cy="60" r="54" stroke-width="1" opacity=".45"/>
           <circle cx="60" cy="60" r="44" stroke-width=".75" opacity=".3" stroke-dasharray="2 5"/>
           <g class="seal-spin">
-            <circle cx="60" cy="42" r="16" stroke-width="1.1"/>
-            <circle cx="45" cy="69" r="16" stroke-width="1.1"/>
-            <circle cx="75" cy="69" r="16" stroke-width="1.1"/>
+            <!-- Three interlocked rings: r=19, centers on an equilateral
+                 triangle of side 19 (circumradius 19/√3), centroid at (60,60). -->
+            <circle cx="60" cy="49.03" r="19" stroke-width="1.2"/>
+            <circle cx="50.5" cy="65.485" r="19" stroke-width="1.2"/>
+            <circle cx="69.5" cy="65.485" r="19" stroke-width="1.2"/>
           </g>
           <path d="M60 3v8M60 109v8M3 60h8M109 60h8" stroke-width="1" opacity=".5"/>
         </g>
