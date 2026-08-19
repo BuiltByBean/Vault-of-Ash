@@ -83,6 +83,12 @@ const SITE_NAV =
   ".voa-nav-links a:hover{color:#ffdca8}\n" +
   "#voa-site-nav a:focus-visible{outline:2px solid #f1a05d;outline-offset:3px}\n" +
   "@media (max-width:700px){.voa-nav-links{display:none}}\n" +
+  /* UI chrome is not prose: no text selection on panels, headers, and
+     buttons. The transcript and the save import/export textarea stay
+     selectable (players copy room text and save strings), and any
+     selection that remains is ember-themed instead of browser blue. */
+  ".masthead,.status-bar,.side-panel,.quick-commands,.command-help,#voa-site-nav,#voa-assist{-webkit-user-select:none;user-select:none}\n" +
+  "::selection{background:rgba(212,99,44,.45);color:#fff3da}\n" +
   "</style>\n" +
   '<script src="/js/embers-play.js"></script>\n' +
   '<script src="/js/assist-play.js"></script>';
