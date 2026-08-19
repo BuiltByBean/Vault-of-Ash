@@ -83,7 +83,8 @@ const SITE_NAV =
   "#voa-site-nav a:focus-visible{outline:2px solid #f1a05d;outline-offset:3px}\n" +
   "@media (max-width:700px){.voa-nav-links{display:none}}\n" +
   "</style>\n" +
-  '<script src="/js/embers-play.js"></script>';
+  '<script src="/js/embers-play.js"></script>\n' +
+  '<script src="/js/assist-play.js"></script>';
 
 function withSiteNav(data) {
   const html = data.toString("utf8");
