@@ -42,6 +42,59 @@
     }, 1400);
   }
 
+  /* ---------- fixed scroll arrows ----------
+     Ported from the Built By Bean site: up chevron pinned under the nav,
+     down chevron pinned to the bottom. Steps section by section; each
+     arrow hides at its end of the page. */
+
+  var upBtn = document.querySelector(".scroll-arrow-up");
+  var downBtn = document.querySelector(".scroll-arrow-down");
+  if (upBtn && downBtn) {
+    var scrollSections = Array.prototype.slice.call(document.querySelectorAll(".hero, .section"));
+    var scrollingTimer = null;
+
+    var beginArrowScroll = function () {
+      document.documentElement.classList.add("is-scrolling");
+      clearTimeout(scrollingTimer);
+      scrollingTimer = setTimeout(function () {
+        document.documentElement.classList.remove("is-scrolling");
+      }, 900);
+    };
+
+    var smoothScrollTo = function (el) {
+      if (!el) return;
+      el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    };
+
+    var currentSectionIndex = function () {
+      var centerY = window.scrollY + window.innerHeight / 2;
+      var idx = 0;
+      for (var i = 0; i < scrollSections.length; i++) {
+        if (scrollSections[i].offsetTop <= centerY) idx = i;
+      }
+      return idx;
+    };
+
+    var updateScrollNav = function () {
+      var i = currentSectionIndex();
+      upBtn.hidden = !scrollSections[i - 1];
+      downBtn.hidden = !scrollSections[i + 1];
+    };
+
+    upBtn.addEventListener("click", function () {
+      beginArrowScroll();
+      smoothScrollTo(scrollSections[currentSectionIndex() - 1]);
+    });
+    downBtn.addEventListener("click", function () {
+      beginArrowScroll();
+      smoothScrollTo(scrollSections[currentSectionIndex() + 1]);
+    });
+
+    window.addEventListener("scroll", updateScrollNav, { passive: true });
+    window.addEventListener("resize", updateScrollNav);
+    updateScrollNav();
+  }
+
   /* ---------- rising embers ---------- */
 
   var canvas = document.getElementById("embers");

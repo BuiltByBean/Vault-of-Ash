@@ -264,35 +264,56 @@ h2 {
   letter-spacing: .05em;
 }
 
-.scroll-cue {
-  position: absolute;
-  bottom: 2rem;
+/* Fixed viewport scroll arrows — up pinned under the nav, down pinned to
+   the bottom. Ported from the Built By Bean site design. */
+
+.scroll-arrow {
+  position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  width: 30px;
-  height: 52px;
-  border: 1px solid #4a4232;
-  border-radius: 15px;
-  opacity: .7;
+  background: none;
+  border: none;
+  padding: 8px;
+  color: var(--faint);
+  cursor: pointer;
+  z-index: 9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity .3s ease, color .2s ease;
 }
 
-.scroll-cue span {
-  position: absolute;
-  top: 9px;
-  left: 50%;
-  width: 3px;
-  height: 9px;
-  margin-left: -1.5px;
-  border-radius: 2px;
-  background: var(--hot);
-  animation: cue-drop 2.2s ease-in-out infinite;
+.scroll-arrow:hover { color: var(--flare); }
+
+.scroll-arrow[hidden] { display: none; }
+
+html.is-scrolling .scroll-arrow {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease;
 }
 
-@keyframes cue-drop {
-  0% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  70% { transform: translateY(16px); opacity: 0; }
-  100% { transform: translateY(16px); opacity: 0; }
+.scroll-arrow-up { top: 80px; }
+.scroll-arrow-down { bottom: 28px; }
+
+.scroll-arrow svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.scroll-arrow-down svg { animation: scrollBounceDown 2.2s ease-in-out infinite; }
+.scroll-arrow-up svg { animation: scrollBounceUp 2.2s ease-in-out infinite; }
+
+@keyframes scrollBounceDown {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+@keyframes scrollBounceUp {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50%      { transform: translateY(-6px); opacity: 1; }
 }
 
 /* ---------- sections ---------- */
@@ -630,7 +651,11 @@ h2 {
   .chronicle::before { left: 1.2rem; }
   .chapter-num { left: -3.6rem; width: 2.4rem; height: 2.4rem; font-size: .9rem; }
   .terminal-body { min-height: 21rem; }
-  .scroll-cue { display: none; }
+  .scroll-arrow svg { width: 28px; height: 28px; }
+  .scroll-arrow-up { top: 64px; }
+  .scroll-arrow-down { bottom: 20px; }
+  /* Keep arrows tappable during touch scrolling on mobile. */
+  html.is-scrolling .scroll-arrow { opacity: 1; pointer-events: auto; }
 }
 
 /* ---------- reduced motion ---------- */

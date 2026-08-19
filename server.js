@@ -102,6 +102,24 @@ function notFound(req, res) {
 }
 
 function serveFile(req, res, filePath) {
+  fs.stat(filePath, (serr, stats) => {
+    if (serr || !stats.isFile()) {
+      notFound(req, res);
+      return;
+    }
+    // no-cache + Last-Modified: browsers revalidate every time and get a
+    // cheap 304 while the file is unchanged, so deploys apply instantly.
+    const lastModified = new Date(Math.floor(stats.mtimeMs / 1000) * 1000).toUTCString();
+    const since = Date.parse(req.headers["if-modified-since"] || "");
+    if (!Number.isNaN(since) && Date.parse(lastModified) <= since) {
+      send(res, 304, { "Cache-Control": "no-cache", "Last-Modified": lastModified }, "");
+      return;
+    }
+    readAndSend(req, res, filePath, lastModified);
+  });
+}
+
+function readAndSend(req, res, filePath, lastModified) {
   fs.readFile(filePath, (err, data) => {
     if (err) {
       notFound(req, res);
@@ -113,7 +131,8 @@ function serveFile(req, res, filePath) {
     const ext = path.extname(filePath).toLowerCase();
     const headers = {
       "Content-Type": MIME[ext] || "application/octet-stream",
-      "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=3600",
+      "Cache-Control": "no-cache",
+      "Last-Modified": lastModified,
       "X-Content-Type-Options": "nosniff"
     };
 
