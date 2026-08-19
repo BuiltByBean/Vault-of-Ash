@@ -1,0 +1,34 @@
+VAULT OF ASH
+Phase 1 — Complete Text Adventure
+Version 1.0.0
+
+Initial Release
+
+- Added the complete four-act adventure across 25 connected rooms.
+- Added a keyboard-first command parser with common aliases, article handling,
+  command history, and useful incomplete-command feedback.
+- Added all required exploration, inventory, inspection, reading, combination, and
+  environmental interaction systems.
+- Added 17 defined core items, including the Ember Shard, Warden Token, Ash Cloak,
+  Bone Tablet, Ashen Blade, and Cinderheart.
+- Added the Ember Passage darkness hazard, Furnace Gallery heat hazard, health,
+  healing, damage reporting, defeat, and recovery choices.
+- Added the Ash Key door interaction, three-part Broken Lift repair, Ash Cloak
+  crafting, Ashen Blade restoration, and Three-Seal sequence puzzle.
+- Added context-sensitive three-level hints for all major progression puzzles.
+- Added ten tracked lore discoveries distributed across contradictory historical
+  records, inscriptions, environmental details, and Keeper Serath's writings.
+- Added four primary endings and one secret ending, each with distinct prerequisites
+  and consequences.
+- Added browser-local automatic and manual saves with format validation.
+- Added portable, encoded text save export and import for moving progress between
+  computers or keeping it on a USB drive.
+- Added complete restart behavior that restores every room item, lock, puzzle,
+  hazard, hint, discovery, and choice prerequisite.
+- Added a responsive ancient-terminal interface with visible health, location,
+  inventory, lore count, quick commands, high-contrast styling, and an optional
+  atmosphere toggle.
+- Added offline operation using only HTML, CSS, and vanilla JavaScript with relative
+  paths and no network or package dependencies.
+- Added automated logic and completion tests plus a developer-only walkthrough for
+  verifying every ending.

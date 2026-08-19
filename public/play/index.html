@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Vault of Ash — a complete offline text adventure.">
+  <title>Vault of Ash</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <main class="game-shell" aria-label="Vault of Ash text adventure">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Phase I · Complete Text Adventure</p>
+        <h1>Vault of Ash</h1>
+      </div>
+      <label class="effects-control" title="Disable optional atmospheric visual effects">
+        <input id="effects-toggle" type="checkbox" checked>
+        <span>Atmosphere</span>
+      </label>
+    </header>
+
+    <section class="status-bar" aria-label="Player status">
+      <div class="status-block status-block--health">
+        <span class="status-label">Health</span>
+        <strong id="health-value">10/10</strong>
+        <span class="health-track" aria-hidden="true"><span id="health-fill" class="health-fill"></span></span>
+      </div>
+      <div class="status-block">
+        <span class="status-label">Location</span>
+        <strong id="location-value">Ruined Entrance</strong>
+      </div>
+      <div class="status-block status-block--lore">
+        <span class="status-label">Lore</span>
+        <strong id="lore-count">0/10</strong>
+      </div>
+    </section>
+
+    <div class="game-grid">
+      <section class="terminal" aria-label="Game transcript and command prompt">
+        <div id="transcript" class="transcript" role="log" aria-live="polite" aria-relevant="additions text" tabindex="0"></div>
+
+        <div class="quick-commands" aria-label="Quick commands">
+          <button type="button" data-command="look">Look</button>
+          <button type="button" data-command="inventory">Inventory</button>
+          <button type="button" data-command="lore">Lore</button>
+          <button type="button" data-command="hint">Hint</button>
+          <button type="button" data-command="help">Help</button>
+        </div>
+
+        <form id="command-form" class="command-form" autocomplete="off">
+          <label for="command-input" class="visually-hidden">Enter a command</label>
+          <span class="prompt-mark" aria-hidden="true">&gt;</span>
+          <input id="command-input" name="command" type="text" inputmode="text" autocapitalize="none" spellcheck="false" placeholder="Enter a command…" aria-describedby="command-help">
+          <button type="submit">Enter</button>
+        </form>
+        <p id="command-help" class="command-help">Use ↑ and ↓ for command history. Type <span>HELP</span> for the complete command list.</p>
+      </section>
+
+      <aside class="side-panel" aria-label="Inventory and field notes">
+        <details open>
+          <summary>Inventory</summary>
+          <ul id="inventory-list" class="inventory-list"><li class="empty">Nothing carried</li></ul>
+        </details>
+
+        <details>
+          <summary>Field Notes</summary>
+          <div class="field-notes">
+            <p>Examine rooms carefully. Written objects often contain lore or puzzle clues.</p>
+            <p>Required objects cannot be dropped, and failed puzzle attempts do not permanently block progress.</p>
+            <p>Use <strong>SAVE</strong> for this browser or <strong>EXPORT SAVE</strong> for a portable USB backup.</p>
+          </div>
+        </details>
+      </aside>
+    </div>
+  </main>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <p class="eyebrow">Vault Record</p>
+      <h2 id="modal-title">Portable Save</h2>
+      <p id="modal-text"></p>
+      <textarea id="modal-input" rows="8" spellcheck="false" aria-label="Portable save data"></textarea>
+      <div class="modal-actions">
+        <button id="modal-copy" type="button">Copy</button>
+        <button id="modal-cancel" type="button" class="button-secondary">Cancel</button>
+        <button id="modal-confirm" type="button">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">Vault of Ash requires JavaScript enabled in your browser. It does not require internet access.</div>
+  </noscript>
+
+  <script src="js/world.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/puzzles.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

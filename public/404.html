@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080606">
+  <title>Passage Collapsed — Vault of Ash</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: #080606;
+      color: #ece3cd;
+      font-family: "EB Garamond", Georgia, serif;
+      text-align: center;
+      padding: 2rem 1.25rem;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 120% 55% at 50% 112%, rgba(190, 74, 22, .16), transparent 62%);
+    }
+    .code {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(4rem, 16vw, 7.5rem);
+      letter-spacing: .12em;
+      background: linear-gradient(180deg, #f9edd3, #cf8a4b 70%, #8a4a22);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 36px rgba(212, 99, 44, .3));
+    }
+    h1 {
+      font-family: "Cinzel", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      letter-spacing: .1em;
+      margin: .8rem 0 1rem;
+      color: #f0e2c2;
+    }
+    p { color: #a89c82; font-style: italic; max-width: 30rem; margin: 0 auto 2.2rem; font-size: 1.12rem; }
+    .row { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+    a {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: .85rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .85rem 1.5rem;
+      transition: box-shadow .25s, border-color .25s, color .25s;
+    }
+    .ember {
+      color: #1d0e05;
+      background: linear-gradient(180deg, #f09d55, #d4632c 55%, #a8431a);
+      border: 1px solid #7c3413;
+    }
+    .ember:hover { box-shadow: 0 8px 40px rgba(230, 120, 55, .45); }
+    .ghost { color: #c8a865; border: 1px solid #4a4232; }
+    .ghost:hover { border-color: #c8a865; color: #ffe9bd; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="code">404</div>
+    <h1>This passage collapsed long ago</h1>
+    <p>Whatever stood here is buried under centuries of ash. The maps of Veyrholm hold no record of it.</p>
+    <div class="row">
+      <a class="ember" href="/play/">Descend into the Vault</a>
+      <a class="ghost" href="/">Return to the surface</a>
+    </div>
+  </main>
+</body>
+</html>

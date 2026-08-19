@@ -1,0 +1,15 @@
+{
+  "name": "vault-of-ash-site",
+  "version": "1.0.0",
+  "description": "Official site for Vault of Ash — a complete offline text adventure. Phase I, v1.0.0.",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node public/play/tests/test_game.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}
