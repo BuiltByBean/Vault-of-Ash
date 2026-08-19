@@ -87,7 +87,8 @@ const SITE_NAV =
      buttons. The transcript and the save import/export textarea stay
      selectable (players copy room text and save strings), and any
      selection that remains is ember-themed instead of browser blue. */
-  ".masthead,.status-bar,.side-panel,.quick-commands,.command-help,#voa-site-nav,#voa-assist{-webkit-user-select:none;user-select:none}\n" +
+  ".masthead,.status-bar,.side-panel,.quick-commands,.command-help,.transcript,.modal-card p,.modal-card h2,#voa-site-nav,#voa-assist{-webkit-user-select:none;user-select:none}\n" +
+  ".modal-card textarea{-webkit-user-select:text;user-select:text}\n" +
   "::selection{background:rgba(212,99,44,.45);color:#fff3da}\n" +
   "</style>\n" +
   '<script src="/js/embers-play.js"></script>\n' +
@@ -127,6 +128,12 @@ function notFound(req, res) {
   });
 }
 
+// The play page is assembled at serve time (file + injections), so its
+// freshness must track the server build too, not just the file on disk —
+// otherwise browsers 304-cache a page whose injected chrome has changed.
+// Server start time changes on every deploy, which is exactly right.
+const BOOT_TIME = Date.now();
+
 function serveFile(req, res, filePath) {
   fs.stat(filePath, (serr, stats) => {
     if (serr || !stats.isFile()) {
@@ -135,7 +142,8 @@ function serveFile(req, res, filePath) {
     }
     // no-cache + Last-Modified: browsers revalidate every time and get a
     // cheap 304 while the file is unchanged, so deploys apply instantly.
-    const lastModified = new Date(Math.floor(stats.mtimeMs / 1000) * 1000).toUTCString();
+    const effectiveMtime = filePath === PLAY_INDEX ? Math.max(stats.mtimeMs, BOOT_TIME) : stats.mtimeMs;
+    const lastModified = new Date(Math.floor(effectiveMtime / 1000) * 1000).toUTCString();
     const since = Date.parse(req.headers["if-modified-since"] || "");
     if (!Number.isNaN(since) && Date.parse(lastModified) <= since) {
       send(res, 304, { "Cache-Control": "no-cache", "Last-Modified": lastModified }, "");
