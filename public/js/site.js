@@ -31,6 +31,15 @@
       el.style.transitionDelay = (Math.min(i % 6, 4) * 70) + "ms";
       io.observe(el);
     });
+    // Safety net: if the observer never fires (odd embedded browsers),
+    // anything near the viewport still lights up shortly after load.
+    setTimeout(function () {
+      revealables.forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight * 1.05) {
+          el.classList.add("lit");
+        }
+      });
+    }, 1400);
   }
 
   /* ---------- rising embers ---------- */
@@ -70,8 +79,14 @@
       };
     }
 
+    var frame = 0;
+
     function tick() {
       if (!running) return;
+      frame++;
+      if (frame % 90 === 0 && (window.innerWidth !== W || window.innerHeight !== H)) {
+        resize();
+      }
       ctx.clearRect(0, 0, W, H);
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
