@@ -144,12 +144,7 @@
     { type: "cmd", text: "take torch", pause: 260 },
     { type: "line", cls: "t-success", text: "Taken: torch.", pause: 750 },
     { type: "cmd", text: "use torch", pause: 260 },
-    { type: "line", cls: "t-success", text: "You strike a spark against the wall. The torch catches, filling the stone around you with amber light.", pause: 950 },
-    { type: "cmd", text: "north", pause: 300 },
-    { type: "line", cls: "t-location", text: "Hall of Dust", pause: 280 },
-    { type: "line", cls: "t-narrative", text: "A broad hall divides around fallen columns. Dust lies deep enough to preserve every footstep, including yours.", pause: 260 },
-    { type: "line", cls: "t-narrative", text: "Three passages survive: a storeroom to the west, an armory to the east, and a scorched corridor to the north. A faded civic mural spans the inner wall.", pause: 400 },
-    { type: "line", cls: "t-system", text: "Exits: south, west, east, north.", pause: 200 }
+    { type: "line", cls: "t-success", text: "You strike a spark against the wall. The torch catches, filling the stone around you with amber light.", pause: 400 }
   ];
 
   var screen = document.getElementById("demo-screen");

@@ -9,7 +9,7 @@ Centuries after the city of Veyrholm burned, its buried vault has cracked open. 
 | Path | What it is |
 |---|---|
 | `public/index.html` | Landing site (themed on the game) |
-| `public/play/` | The game itself — **unmodified** original release |
+| `public/play/` | The game itself — **unmodified** original release (the server injects a small "⟵ Surface" home link into the served page at request time; the files on disk are untouched) |
 | `server.js` | Zero-dependency Node static server |
 | `Dockerfile` / `railway.json` | Railway deployment config |
 

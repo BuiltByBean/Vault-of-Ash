@@ -42,6 +42,29 @@ const MIME = {
 
 const COMPRESSIBLE = new Set([".html", ".css", ".js", ".mjs", ".json", ".txt", ".svg", ".map", ".webmanifest"]);
 
+/*
+ * The game in public/play/ is the original release, kept byte-for-byte
+ * unmodified on disk. The one affordance it lacks as an embedded page is a
+ * way back to the landing site, so we inject a small "Surface" link at
+ * serve time. Replacing public/play/ with a future game release keeps the
+ * link with zero changes to the new files.
+ */
+const PLAY_INDEX = path.join(ROOT, "play", "index.html");
+const SURFACE_LINK =
+  '<a href="/" id="voa-surface-link" title="Back to the Vault of Ash home page" aria-label="Leave the game and return to the site">&#10229; Surface</a>\n' +
+  "<style>\n" +
+  '#voa-surface-link{position:fixed;right:14px;bottom:14px;z-index:15;font:600 .68rem/1 "SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#a59d88;background:rgba(23,20,14,.92);border:1px solid #3a3529;padding:.55rem .75rem;border-radius:2px;text-decoration:none;opacity:.8;transition:opacity .2s,border-color .2s,color .2s}\n' +
+  "#voa-surface-link:hover{opacity:1;border-color:#c6a868;color:#fff6db}\n" +
+  "#voa-surface-link:focus-visible{outline:2px solid #f1a05d;outline-offset:2px;opacity:1}\n" +
+  "@media (max-width:540px){#voa-surface-link{right:10px;bottom:10px;padding:.45rem .6rem}}\n" +
+  "</style>";
+
+function withSurfaceLink(data) {
+  const html = data.toString("utf8");
+  if (html.indexOf("</body>") === -1) return data;
+  return Buffer.from(html.replace("</body>", SURFACE_LINK + "\n</body>"), "utf8");
+}
+
 function send(res, status, headers, body) {
   res.writeHead(status, headers);
   res.end(body);
@@ -63,6 +86,9 @@ function serveFile(req, res, filePath) {
     if (err) {
       notFound(req, res);
       return;
+    }
+    if (filePath === PLAY_INDEX) {
+      data = withSurfaceLink(data);
     }
     const ext = path.extname(filePath).toLowerCase();
     const headers = {
