@@ -2,7 +2,7 @@
 
 Official site for **Vault of Ash**, a complete offline text adventure (Phase I, v1.0.0).
 
-Centuries after the city of Veyrholm burned, its buried vault has cracked open. 25 chambers, 17 relics, 10 lore discoveries, four endings.
+Centuries after the city of Veyrholm burned, its buried vault has cracked open. 25 chambers, 17 relics, 10 lore discoveries.
 
 ## Structure
 

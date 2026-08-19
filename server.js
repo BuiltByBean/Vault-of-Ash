@@ -63,7 +63,6 @@ const SITE_NAV =
   '  <div class="voa-nav-links">\n' +
   '    <a href="/#chronicle">Chronicle</a>\n' +
   '    <a href="/#below">The Vault</a>\n' +
-  '    <a href="/#endings">Endings</a>\n' +
   '    <a href="/#manual">Field Manual</a>\n' +
   "  </div>\n" +
   "</nav>\n" +

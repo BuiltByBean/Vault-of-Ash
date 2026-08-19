@@ -490,72 +490,6 @@ h2 {
 
 .feature p { color: var(--muted); font-size: .98rem; }
 
-/* ---------- endings ---------- */
-
-.endings {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  max-width: 60rem;
-  margin: 0 auto;
-}
-
-.ending-plaque {
-  position: relative;
-  padding: 2rem 1.15rem 1.7rem;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(180deg, rgba(24, 18, 11, .6), rgba(10, 8, 6, .85));
-  text-align: center;
-  transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
-}
-
-.ending-plaque::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(200, 168, 101, .12);
-  pointer-events: none;
-}
-
-.ending-plaque:hover {
-  border-color: #5d4826;
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0,0,0,.55), 0 0 40px rgba(212, 99, 44, .1);
-}
-
-.ending-num {
-  display: block;
-  color: var(--ember);
-  font-family: var(--display);
-  font-size: .85rem;
-  letter-spacing: .3em;
-  margin-bottom: .9rem;
-}
-
-.ending-plaque h3 {
-  font-size: 1.12rem;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-  color: #f0dfb6;
-  margin-bottom: .7rem;
-}
-
-.ending-plaque p { color: var(--faint); font-size: .9rem; font-style: italic; line-height: 1.55; }
-
-.sealed-name { display: block; }
-
-.seal-bar {
-  display: block;
-  width: 68%;
-  height: 1.05rem;
-  margin: .12rem auto .18rem;
-  background: linear-gradient(180deg, #2e2718 0%, #201a10 55%, #17130c 100%);
-  border: 1px solid rgba(200, 168, 101, .16);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, .75), 0 0 14px rgba(212, 99, 44, .07);
-}
-
-
 /* ---------- field manual ---------- */
 
 .manual {
@@ -683,7 +617,6 @@ h2 {
 
 @media (max-width: 980px) {
   .features { grid-template-columns: repeat(2, 1fr); }
-  .endings { grid-template-columns: repeat(2, 1fr); }
   .manual { grid-template-columns: 1fr; }
 }
 
@@ -693,7 +626,6 @@ h2 {
   .hero { padding-top: 6rem; }
   .hero-actions .btn { width: 100%; }
   .features { grid-template-columns: 1fr; }
-  .endings { grid-template-columns: 1fr; }
   .chronicle { padding-left: 3.6rem; }
   .chronicle::before { left: 1.2rem; }
   .chapter-num { left: -3.6rem; width: 2.4rem; height: 2.4rem; font-size: .9rem; }
