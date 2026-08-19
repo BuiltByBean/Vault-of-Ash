@@ -44,25 +44,46 @@ const COMPRESSIBLE = new Set([".html", ".css", ".js", ".mjs", ".json", ".txt", "
 
 /*
  * The game in public/play/ is the original release, kept byte-for-byte
- * unmodified on disk. The one affordance it lacks as an embedded page is a
- * way back to the landing site, so we inject a small "Surface" link at
- * serve time. Replacing public/play/ with a future game release keeps the
- * link with zero changes to the new files.
+ * unmodified on disk. So that the play page carries the same site chrome as
+ * the landing page, we inject the site navigation bar at serve time (styles
+ * scoped with a voa- prefix; body gets top padding so nothing is covered).
+ * Replacing public/play/ with a future game release keeps the nav with zero
+ * changes to the new files.
  */
 const PLAY_INDEX = path.join(ROOT, "play", "index.html");
-const SURFACE_LINK =
-  '<a href="/" id="voa-surface-link" title="Back to the Vault of Ash home page" aria-label="Leave the game and return to the site">&#10229; Surface</a>\n' +
+const SITE_NAV =
+  '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+  '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+  '<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond&display=swap" rel="stylesheet">\n' +
+  '<nav id="voa-site-nav" aria-label="Vault of Ash site">\n' +
+  '  <a class="voa-brand" href="/" title="Back to the Vault of Ash home page">\n' +
+  '    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C9 7 6.5 9.5 6.5 13.5a5.5 5.5 0 0 0 11 0C17.5 9.5 15 7 12 2Zm0 17.5a4 4 0 0 1-4-4c0-2.6 1.6-4.6 4-8 2.4 3.4 4 5.4 4 8a4 4 0 0 1-4 4Z" fill="currentColor"/><path d="M12 8.5c-1.3 1.9-2.2 3.2-2.2 4.9a2.2 2.2 0 0 0 4.4 0c0-1.7-.9-3-2.2-4.9Z" fill="currentColor"/></svg>\n' +
+  "    <span>Vault of Ash</span>\n" +
+  "  </a>\n" +
+  '  <div class="voa-nav-links">\n' +
+  '    <a href="/#chronicle">Chronicle</a>\n' +
+  '    <a href="/#below">The Vault</a>\n' +
+  '    <a href="/#endings">Endings</a>\n' +
+  '    <a href="/#manual">Field Manual</a>\n' +
+  "  </div>\n" +
+  "</nav>\n" +
   "<style>\n" +
-  '#voa-surface-link{position:fixed;right:14px;bottom:14px;z-index:15;font:600 .68rem/1 "SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#a59d88;background:rgba(23,20,14,.92);border:1px solid #3a3529;padding:.55rem .75rem;border-radius:2px;text-decoration:none;opacity:.8;transition:opacity .2s,border-color .2s,color .2s}\n' +
-  "#voa-surface-link:hover{opacity:1;border-color:#c6a868;color:#fff6db}\n" +
-  "#voa-surface-link:focus-visible{outline:2px solid #f1a05d;outline-offset:2px;opacity:1}\n" +
-  "@media (max-width:540px){#voa-surface-link{right:10px;bottom:10px;padding:.45rem .6rem}}\n" +
+  "body{padding-top:3.9rem}\n" +
+  "#voa-site-nav{position:fixed;top:0;left:0;right:0;z-index:15;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;padding:.85rem clamp(1rem,4vw,2.4rem);background:rgba(8,6,6,.85);border-bottom:1px solid #221d15;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}\n" +
+  '.voa-brand{display:flex;align-items:center;gap:.55rem;color:#ece3cd;font-family:"Cinzel",Georgia,serif;font-size:.95rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}\n' +
+  ".voa-brand svg{width:20px;height:20px;color:#d4632c}\n" +
+  ".voa-brand:hover span{color:#ffdca8}\n" +
+  ".voa-nav-links{display:flex;gap:1.5rem}\n" +
+  '.voa-nav-links a{color:#a89c82;font-family:"EB Garamond",Georgia,serif;font-size:.95rem;letter-spacing:.04em;text-decoration:none;transition:color .2s ease}\n' +
+  ".voa-nav-links a:hover{color:#ffdca8}\n" +
+  "#voa-site-nav a:focus-visible{outline:2px solid #f1a05d;outline-offset:3px}\n" +
+  "@media (max-width:700px){.voa-nav-links{display:none}}\n" +
   "</style>";
 
-function withSurfaceLink(data) {
+function withSiteNav(data) {
   const html = data.toString("utf8");
   if (html.indexOf("</body>") === -1) return data;
-  return Buffer.from(html.replace("</body>", SURFACE_LINK + "\n</body>"), "utf8");
+  return Buffer.from(html.replace("</body>", SITE_NAV + "\n</body>"), "utf8");
 }
 
 function send(res, status, headers, body) {
@@ -88,7 +109,7 @@ function serveFile(req, res, filePath) {
       return;
     }
     if (filePath === PLAY_INDEX) {
-      data = withSurfaceLink(data);
+      data = withSiteNav(data);
     }
     const ext = path.extname(filePath).toLowerCase();
     const headers = {
