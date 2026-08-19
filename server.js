@@ -45,13 +45,17 @@ const COMPRESSIBLE = new Set([".html", ".css", ".js", ".mjs", ".json", ".txt", "
 /*
  * The game in public/play/ is the original release, kept byte-for-byte
  * unmodified on disk. So that the play page carries the same site chrome as
- * the landing page, we inject the site navigation bar at serve time (styles
- * scoped with a voa- prefix; body gets top padding so nothing is covered).
- * Replacing public/play/ with a future game release keeps the nav with zero
+ * the landing page, we inject at serve time (styles scoped with a voa-
+ * prefix; body gets top padding so nothing is covered):
+ *   - the site navigation bar
+ *   - the rising-ember canvas (js/embers-play.js), which obeys the game's
+ *     own Atmosphere toggle and the OS reduced-motion preference
+ * Replacing public/play/ with a future game release keeps both with zero
  * changes to the new files.
  */
 const PLAY_INDEX = path.join(ROOT, "play", "index.html");
 const SITE_NAV =
+  '<canvas id="voa-embers" aria-hidden="true"></canvas>\n' +
   '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
   '<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond&display=swap" rel="stylesheet">\n' +
@@ -68,6 +72,7 @@ const SITE_NAV =
   "</nav>\n" +
   "<style>\n" +
   "body{padding-top:3.9rem}\n" +
+  "#voa-embers{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}\n" +
   "#voa-site-nav{position:fixed;top:0;left:0;right:0;z-index:15;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;padding:.85rem clamp(1rem,4vw,2.4rem);background:rgba(8,6,6,.85);border-bottom:1px solid #221d15;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}\n" +
   '.voa-brand{display:flex;align-items:center;gap:.55rem;color:#ece3cd;font-family:"Cinzel",Georgia,serif;font-size:.95rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}\n' +
   ".voa-brand svg{width:20px;height:20px;color:#d4632c}\n" +
@@ -77,7 +82,8 @@ const SITE_NAV =
   ".voa-nav-links a:hover{color:#ffdca8}\n" +
   "#voa-site-nav a:focus-visible{outline:2px solid #f1a05d;outline-offset:3px}\n" +
   "@media (max-width:700px){.voa-nav-links{display:none}}\n" +
-  "</style>";
+  "</style>\n" +
+  '<script src="/js/embers-play.js"></script>';
 
 function withSiteNav(data) {
   const html = data.toString("utf8");
