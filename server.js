@@ -55,6 +55,7 @@ const COMPRESSIBLE = new Set([".html", ".css", ".js", ".mjs", ".json", ".txt", "
  */
 const PLAY_INDEX = path.join(ROOT, "play", "index.html");
 const SITE_NAV =
+  '<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n' +
   '<canvas id="voa-embers" aria-hidden="true"></canvas>\n' +
   '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
@@ -86,9 +87,21 @@ const SITE_NAV =
   '<script src="/js/embers-play.js"></script>\n' +
   '<script src="/js/assist-play.js"></script>';
 
+/*
+ * The game overwrites its recovery autosave the moment it boots a fresh
+ * session, which loses progress on an accidental reload. This head script
+ * runs BEFORE the game scripts and preserves the pre-boot autosave so the
+ * assist layer can offer to restore it. Game files stay untouched.
+ */
+const PREBOOT_SNAPSHOT =
+  '<script>try{window.__voaPreBoot=localStorage.getItem("vault-of-ash-autosave-v1")}catch(e){window.__voaPreBoot=null}</script>';
+
 function withSiteNav(data) {
-  const html = data.toString("utf8");
+  let html = data.toString("utf8");
   if (html.indexOf("</body>") === -1) return data;
+  if (html.indexOf("</head>") !== -1) {
+    html = html.replace("</head>", PREBOOT_SNAPSHOT + "\n</head>");
+  }
   return Buffer.from(html.replace("</body>", SITE_NAV + "\n</body>"), "utf8");
 }
 
